@@ -71,7 +71,7 @@ Where:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/investmeter.git
+git clone https://github.com/Ravipanchal0/investmeter.git
 
 # Navigate to project folder
 cd investmeter
