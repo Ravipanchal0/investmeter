@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --font-golos: "Golos Text", sans-serif;
+  --color-dark-blue: #15436b;
+  --color-green-dark: #32a55c;
+  --color-green-light: #7ace99;
+  --color-green-light-1: #beffd6;
+  --color-green-text: #0c7934;
+}
+
+.active {
+  @apply bg-slate-200 text-dark-blue;
+}
