@@ -1,13 +1,13 @@
 # 📊 InvestMeter
 
-A simple and interactive investment calculator built with React that helps users estimate returns for **SIP (Systematic Investment Plan)** and **Lumpsum investments**.
+A simple and interactive investment calculator built with React that helps users estimate returns for **SIP (Systematic Investment Plan)**, **Lumpsum investments** and **EMI Simplification**.
 
 ---
 
 ## 🚀 Features
 
 - 📈 Calculate **maturity amount**, **total invested**, and **interest earned**
-- 🔄 Switch between **SIP** and **Lumpsum**
+- 🔄 Switch between **SIP**, **Lumpsum** and **EMI**
 - 🎯 Real-time updates as you adjust inputs
 - 🎨 Clean and responsive UI
 - ⚡ Optimized for performance
@@ -31,6 +31,7 @@ src/
 ├── components/
 │   ├── Header.jsx
 │   ├── InputFrame.jsx
+│   ├── EmiTable.jsx
 │   ├── Result.jsx
 │   ├── Button.jsx
 │   └── utilitiesFunc.js
@@ -56,6 +57,12 @@ M = P × ((1 + r)^n - 1) / r × (1 + r)
 
 ```
 M = P × (1 + r)^t
+```
+
+### EMI Formula
+
+```
+P × r × (1 + r)^n / ((1 + r)^n - 1)
 ```
 
 Where:

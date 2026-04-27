@@ -2,9 +2,12 @@ import React, { useState, useMemo } from "react";
 import Header from "./components/Header";
 import InputFrame from "./components/InputFrame";
 import Result from "./components/Result";
-import { calculateInvestment } from "./components/utilitiesFunc";
+import { calculateInvestment, emiCalc } from "./components/utilitiesFunc";
 import Button from "./components/Button";
 import { FaRupeeSign, FaPercentage, FaCalendarTimes } from "react-icons/fa";
+import EmiTable from "./components/EmiTable";
+
+const BUTTON_LABEL = ["sip", "lumpsum", "emi"];
 
 const App = () => {
   const [investDetail, setInvestDetail] = useState({
@@ -13,8 +16,11 @@ const App = () => {
     annualRate: 12.5,
     time: 5,
   });
-  const { maturityAmount, totalInvested, totalInterest } = useMemo(
-    () => calculateInvestment(investDetail),
+  const calculation = useMemo(
+    () =>
+      investDetail.investType !== "emi"
+        ? calculateInvestment(investDetail)
+        : emiCalc(investDetail),
     [investDetail],
   );
   const INPUT_FRAMES = useMemo(
@@ -24,10 +30,19 @@ const App = () => {
         label:
           investDetail.investType === "sip"
             ? "Monthly Investment"
-            : "Total Investment",
-        min: 100,
-        max: investDetail.investType === "sip" ? 50000 : 100000,
-        step: 100,
+            : investDetail.investType === "emi"
+              ? "Loan Amount"
+              : "Total Investment",
+
+        min: investDetail.investType === "emi" ? 10000 : 100,
+
+        max:
+          investDetail.investType === "sip"
+            ? 50000
+            : investDetail.investType === "emi"
+              ? 5000000
+              : 100000,
+        step: investDetail.investType === "emi" ? 1000 : 100,
         symbol: <FaRupeeSign />,
         value: investDetail.principal,
         onSetValue: setInvestDetail,
@@ -59,8 +74,8 @@ const App = () => {
   return (
     <>
       <Header />
-      <div className="btns mb-3 md:mt-8 flex items-center gap-4">
-        {["sip", "lumpsum"].map((type) => {
+      <div className="btns mb-8 md:mt-8 flex items-center gap-4">
+        {BUTTON_LABEL.map((type) => {
           return (
             <Button
               key={type}
@@ -90,12 +105,16 @@ const App = () => {
           })}
         </div>
         <div className="w-3/4 lg:w-0.5 h-0.5 lg:h-40 rounded-full bg-slate-100 self-center"></div>
-        <div className="w-full">
-          <Result
-            investedAmount={totalInvested}
-            estimatedInterest={totalInterest}
-            maturityAmount={maturityAmount}
-          />
+        <div className="w-full max-h-screen">
+          {investDetail.investType === "emi" ? (
+            <EmiTable calculation={calculation} />
+          ) : (
+            <Result
+              investedAmount={calculation.totalInvested}
+              estimatedInterest={calculation.totalInterest}
+              maturityAmount={calculation.maturityAmount}
+            />
+          )}
         </div>
       </main>
     </>

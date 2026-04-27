@@ -44,3 +44,46 @@ export function formatMoney(amount, currency = "INR", locale = "en-IN") {
     maximumFractionDigits: 0,
   }).format(amount);
 }
+
+export function emiCalc({ principal, annualRate, time }) {
+  const totalMonths = time * 12;
+  const monthlyRate = annualRate / 100 / 12;
+
+  // EMI Formula: P × r × (1 + r)^n / ((1 + r)^n - 1)
+  const emi =
+    monthlyRate === 0
+      ? principal / totalMonths // Edge case: 0% interest
+      : (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
+        (Math.pow(1 + monthlyRate, totalMonths) - 1);
+
+  const totalPayment = emi * totalMonths;
+  const totalInterest = totalPayment - principal;
+  const interestRate = (totalInterest / principal) * 100;
+
+  // Amortization schedule — breakdown of each month
+  const schedule = [];
+  let balance = principal;
+
+  for (let month = 1; month <= totalMonths; month++) {
+    const interestPaid = balance * monthlyRate;
+    const principalPaid = emi - interestPaid;
+    balance = balance - principalPaid;
+
+    schedule.push({
+      Month: month,
+      EMI: parseFloat(emi.toFixed(2)),
+      Interest: parseFloat(interestPaid.toFixed(2)),
+      Principal: parseFloat(principalPaid.toFixed(2)),
+      "Remaining Amount": parseFloat(Math.max(balance, 0).toFixed(2)),
+    });
+  }
+
+  return {
+    principal,
+    monthlyEmi: parseFloat(emi.toFixed(2)),
+    totalPayment: parseFloat(totalPayment.toFixed(2)),
+    totalInterest: parseFloat(totalInterest.toFixed(2)),
+    interestRate: parseFloat(interestRate.toFixed(2)),
+    schedule,
+  };
+}

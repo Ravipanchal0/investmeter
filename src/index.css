@@ -14,3 +14,7 @@
 .active {
   @apply bg-slate-200 text-dark-blue;
 }
+
+.custom-scroll::-webkit-scrollbar {
+  width: 0px;
+}
