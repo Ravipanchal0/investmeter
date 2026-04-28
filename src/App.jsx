@@ -23,6 +23,13 @@ const App = () => {
         : emiCalc(investDetail),
     [investDetail],
   );
+
+  // Validation for negative value
+  const inputIsValid =
+    investDetail.time >= 1 &&
+    investDetail.annualRate >= 1 &&
+    investDetail.principal >= 1;
+
   const INPUT_FRAMES = useMemo(
     () => [
       {
@@ -34,14 +41,14 @@ const App = () => {
               ? "Loan Amount"
               : "Total Investment",
 
-        min: investDetail.investType === "emi" ? 10000 : 100,
+        min: investDetail.investType === "sip" ? 100 : 10000,
 
         max:
           investDetail.investType === "sip"
             ? 50000
             : investDetail.investType === "emi"
               ? 5000000
-              : 100000,
+              : 1000000,
         step: investDetail.investType === "emi" ? 1000 : 100,
         symbol: <FaRupeeSign />,
         value: investDetail.principal,
@@ -104,16 +111,16 @@ const App = () => {
             );
           })}
         </div>
-        <div className="w-3/4 lg:w-0.5 h-0.5 lg:h-40 rounded-full bg-slate-100 self-center"></div>
-        <div className="w-full max-h-screen">
-          {investDetail.investType === "emi" ? (
-            <EmiTable calculation={calculation} />
+        <div className="separator"></div>
+        <div className="w-full">
+          {inputIsValid ? (
+            investDetail.investType === "emi" ? (
+              <EmiTable calculation={calculation} />
+            ) : (
+              <Result calculation={calculation} />
+            )
           ) : (
-            <Result
-              investedAmount={calculation.totalInvested}
-              estimatedInterest={calculation.totalInterest}
-              maturityAmount={calculation.maturityAmount}
-            />
+            <p className="text-center text-red-500">Enter a valid input!</p>
           )}
         </div>
       </main>

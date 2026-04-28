@@ -1,12 +1,14 @@
 import React from "react";
 import { formatMoney } from "./utilitiesFunc";
 
-const Result = ({ investedAmount, estimatedInterest, maturityAmount }) => {
+const Result = ({ calculation }) => {
+  const { totalInvested, maturityAmount, totalInterest } = calculation;
+
   const AMOUNT_DETAILS = [
-    { label: "Invested Amount", value: formatMoney(investedAmount) },
+    { label: "Invested Amount", value: formatMoney(totalInvested) },
     {
       label: "Estimated Interest",
-      value: formatMoney(estimatedInterest),
+      value: formatMoney(totalInterest),
     },
     { label: "Total Amount", value: formatMoney(maturityAmount) },
   ];
