@@ -1,23 +1,18 @@
-import React from "react";
 import Logo from "../assets/Logo.svg";
 
-const Header = React.memo(() => {
+const Header = () => {
   return (
-    <header className="flex flex-col md:flex-row items-center md:items-start md:justify-between py-4 mb-4">
-      <div className="log">
-        <img src={Logo} alt="InvestMeter" width={75} loading="lazy" />
-      </div>
-      <div className="brand-name flex flex-col items-center md:items-end leading-4 mt-2">
-        <h1 className="text-3xl uppercase font-golos">
-          <span className="font-extrabold text-dark-blue">Invest</span>
-          <span className="text-green-dark">Meter</span>
-        </h1>
-        <p className="items-center text-center md:items-end text-gray-500">
-          See your investments grow before you invest.
-        </p>
-      </div>
+    <header className="py-5">
+      <h1 className="brand-name uppercase text-2xl font-roboto ">
+        <span className="text-primary text-[#3e098f] font-bold">Invest</span>
+        <span className="text-[#22c55e]">Meter</span>
+      </h1>
+
+      <p className="text-gray-500 font-inter text-sm leading-3">
+        See your investments grow before you invest.
+      </p>
     </header>
   );
-});
+};
 
 export default Header;

@@ -1,24 +1,118 @@
-@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap");
 
 @import "tailwindcss";
 
 @theme {
-  --font-golos: "Golos Text", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --font-sarpanch: "Sarpanch", sans-serif;
   --color-dark-blue: #15436b;
   --color-green-dark: #32a55c;
   --color-green-light: #7ace99;
   --color-green-light-1: #beffd6;
   --color-green-text: #0c7934;
-}
 
+  --color-main-border: #f4f5f7;
+  --color-border: #f4f5f7;
+  --color-input-border: #f3f0fa;
+
+  /* Core Buttons */
+  --color-ui-btn-title: #535e70;
+  --color-ui-btn-title-active: #dcdce9;
+  --color-ui-btn-bg: #f4f5ff;
+  --color-ui-btn-text-hover: #f3f2fc;
+  --color-ui-btn-bg-hover: #7c7af5;
+  --color-ui-btn-bg-active: #2d2b84;
+
+  /* Rupees */
+  --color-ui-rupee-icon: #10914e;
+  --color-ui-rupee-bg: #e0f7e4;
+  --color-ui-rupee-slider: #5bc573;
+
+  /* Percentage */
+  --color-ui-percent-icon: #5489e0;
+  --color-ui-percent-bg: #dee9fc;
+  --color-ui-percent-slider: #508ce6;
+
+  /* Calendar */
+  --color-ui-cal-icon: #9c76ce;
+  --color-ui-cal-bg: #f1e8fa;
+  --color-ui-cal-slider: #9d6cd7;
+
+  /* Wallet */
+  --color-ui-wallet-icon: #4ea972;
+  --color-ui-wallet-bg: #e3f8e8;
+
+  /* Grow */
+  --color-ui-grow-icon: #2b70cb;
+  --color-ui-grow-bg: #dee9fb;
+
+  /* Total */
+  --color-ui-total-icon: #7844c3;
+  --color-ui-total-bg: #eee0f9;
+
+  --color-ui-interest-icon: #d64b90;
+  --color-ui-interest-bg: #fbeaf2;
+
+  /* Green Scheme */
+  --color-ui-grad-green-from: #faffff;
+  --color-ui-grad-green-to: #d9f2ec;
+  --color-ui-text-bold: #258668;
+  --color-ui-green-border: #dbeff7;
+  --color-ui-purple-border: #f2f1f7;
+
+  /* Purple Scheme */
+  --color-ui-grad-purple-from: #ffffff;
+  --color-ui-grad-purple-to: #ede4fb;
+  --color-ui-text-green: #78c893;
+}
+.flex-center {
+  @apply flex items-center justify-center;
+}
 .active {
-  @apply bg-slate-200 text-dark-blue;
+  @apply bg-ui-btn-bg-active text-ui-btn-title-active;
 }
 
-.separator {
-  @apply w-3/4 lg:w-0.5 h-0.5 lg:h-40 rounded-full bg-slate-100 self-center;
+.purple-grad {
+  @apply bg-linear-60 from-ui-grad-purple-from to-ui-grad-purple-to;
 }
-
+.green-grad {
+  @apply bg-linear-60 from-ui-grad-green-from to-ui-grad-green-to;
+}
+.btn-grad {
+  @apply bg-linear-45 from-green-600 via-ui-percent-icon to-ui-cal-icon bg-[length:200%_100%] animate-[gradientMove_3s_infinite_ease-in-out_alternate];
+}
 .custom-scroll::-webkit-scrollbar {
   width: 0px;
+}
+
+.separate {
+  @apply w-4/5 h-[1px] my-6 mx-auto bg-border border-none;
+}
+
+.input-slider::-webkit-slider-thumb {
+  @apply appearance-none size-4 rounded-full transition-transform duration-100 ease-in-out;
+  background-color: var(--thumb-color);
+  box-shadow:
+    0 0 0 3px white,
+    0 0 0 5px var(--thumb-color); /* ring-offset */
+}
+.input-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }

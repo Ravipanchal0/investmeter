@@ -1,19 +1,18 @@
-import React from "react";
-
-const Button = React.memo(({ type, investDetail, setInvestDetail }) => {
+const Button = ({ Icon, label, active, onSetInvestType }) => {
   return (
     <button
       onClick={() =>
-        setInvestDetail((prev) => ({
+        onSetInvestType((prev) => ({
           ...prev,
-          investType: type,
+          investType: label,
         }))
       }
-      className={`${investDetail.investType == type && "active"} px-4 py-1.5 rounded text-dark-blue bg-slate-50 font-semibold hover:bg-green-200 hover:text-green-800 cursor-pointer uppercase transition-all duration-200 ease-in-out`}
+      className={`${label === active && "active"} px-4 py-1.5 sm:px-5 sm:py-2 flex-center gap-2 rounded-md font-semibold text-ui-btn-title bg-ui-btn-bg text-sm cursor-pointer hover:bg-ui-btn-bg-hover hover:text-ui-btn-text-hover`}
     >
-      {type.toUpperCase()}
+      <Icon className="size-4" />
+      <span className="uppercase">{label}</span>
     </button>
   );
-});
+};
 
 export default Button;

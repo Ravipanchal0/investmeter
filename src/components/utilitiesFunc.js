@@ -1,7 +1,6 @@
-export function formatMoney(amount, currency = "INR", locale = "en-IN") {
+export function formatMoney(amount, locale = "en-IN") {
   return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: currency,
+    style: "decimal",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
@@ -12,12 +11,7 @@ export function formatMonth(month, totalMonths) {
   return String(month).padStart(digits, "0");
 }
 
-export function calculateInvestment({
-  investType,
-  principal,
-  annualRate,
-  time,
-}) {
+export function calculateInvestment({ investType, amount, annualRate, time }) {
   const totalMonths = time * 12;
   const monthlyRate = annualRate / 100 / 12;
   const annualRateDecimal = annualRate / 100;
@@ -26,15 +20,15 @@ export function calculateInvestment({
 
   if (investType === "lumpsum") {
     // Compound Interest: P × (1 + r)^t
-    maturityAmount = principal * Math.pow(1 + annualRateDecimal, time);
-    totalInvested = principal;
+    maturityAmount = amount * Math.pow(1 + annualRateDecimal, time);
+    totalInvested = amount;
   } else if (investType === "sip") {
     // SIP Formula: P × ((1 + r)^n - 1) / r × (1 + r)
     maturityAmount =
-      principal *
+      amount *
       ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) *
       (1 + monthlyRate);
-    totalInvested = principal * totalMonths;
+    totalInvested = amount * totalMonths;
   } else {
     throw new Error("Invalid type. Use 'lumpsum' or 'sip'.");
   }
@@ -43,52 +37,55 @@ export function calculateInvestment({
   absoluteReturn = (totalInterest / totalInvested) * 100;
 
   return {
-    totalInvested: parseFloat(totalInvested),
-    maturityAmount: parseFloat(maturityAmount),
-    totalInterest: parseFloat(totalInterest),
+    totalInvested: Math.ceil(totalInvested),
+    maturityAmount: Math.ceil(maturityAmount),
+    totalInterest: Math.ceil(totalInterest),
     // absoluteReturn: parseFloat(absoluteReturn.toFixed(2)),
   };
 }
 
-export function emiCalc({ principal, annualRate, time }) {
+export function emiCalc({ amount, annualRate, time }) {
   const totalMonths = time * 12;
   const monthlyRate = annualRate / 100 / 12;
 
   // EMI Formula: P × r × (1 + r)^n / ((1 + r)^n - 1)
   const emi =
     monthlyRate === 0
-      ? principal / totalMonths // Edge case: 0% interest
-      : (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
+      ? amount / totalMonths // Edge case: 0% interest
+      : (amount * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
         (Math.pow(1 + monthlyRate, totalMonths) - 1);
 
   const totalPayment = emi * totalMonths;
-  const totalInterest = totalPayment - principal;
-  const interestRate = (totalInterest / principal) * 100;
+  const totalInterest = totalPayment - amount;
+  const interestRate = (totalInterest / amount) * 100;
 
   // Amortization schedule — breakdown of each month
   const schedule = [];
-  let balance = principal;
+  let balance = amount;
 
   for (let month = 1; month <= totalMonths; month++) {
     const interestPaid = balance * monthlyRate;
-    const principalPaid = emi - interestPaid;
-    balance = balance - principalPaid;
+    const amountPaid = emi - interestPaid;
+    balance = balance - amountPaid;
 
     schedule.push({
       month,
       emi: Math.floor(emi),
       interestPaid: Math.floor(interestPaid),
-      principalPaid: Math.floor(principalPaid),
+      amountPaid: Math.floor(amountPaid),
       balance: Math.floor(Math.max(balance, 0)),
     });
   }
 
   return {
-    principal,
+    amount,
+    annualRate,
+    time,
+    noOfEmi: totalMonths,
     monthlyEmi: Math.floor(emi),
     totalPayment: Math.floor(totalPayment),
     totalInterest: Math.floor(totalInterest),
     interestRate: Math.floor(interestRate),
-    schedule,
+    // schedule,
   };
 }
