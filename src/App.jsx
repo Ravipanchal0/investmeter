@@ -11,7 +11,6 @@ import {
   Calendar,
   Rupee,
   Percentage,
-  Calculator,
 } from "./assets/svgs/svgs";
 
 const BUTTONS = [
@@ -27,6 +26,7 @@ const App = () => {
     annualRate: 11.5,
     time: 10,
   });
+
   const calculation = useMemo(
     () =>
       investDetail.investType !== "emi"
@@ -38,7 +38,7 @@ const App = () => {
   // Validation for negative value
   const inputIsValid =
     investDetail.time >= 1 &&
-    investDetail.annualRate >= 1 &&
+    investDetail.annualRate >= 0 &&
     investDetail.amount >= 1;
 
   const INPUT_FRAMES = useMemo(
@@ -64,7 +64,7 @@ const App = () => {
           investDetail.investType === "sip"
             ? 50000
             : investDetail.investType === "emi"
-              ? 10000000
+              ? 5000000
               : 1000000,
         step: investDetail.investType === "emi" ? 1000 : 100,
         value: investDetail.amount,
@@ -83,7 +83,7 @@ const App = () => {
             : "What return are you expecting?",
         bgColor: "bg-ui-percent-bg",
         textColor: "var(--color-ui-percent-icon)",
-        min: 5,
+        min: 0.1,
         max: 30,
         step: 0.1,
         value: investDetail.annualRate,
@@ -115,14 +115,14 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className="sm:p-5 mt-3 sm:border border-border rounded-2xl">
-        <div className="btns flex items-center justify-center sm:justify-start gap-3 sm:gap-4">
+      <main className="sm:p-5 mt-3 sm:border border-main-border rounded-2xl">
+        <div className="btns flex-center gap-3 sm:gap-4">
           {BUTTONS.map((btn) => {
             return (
               <Button
                 key={btn.label}
                 {...btn}
-                active={investDetail.investType}
+                btnType={investDetail.investType}
                 onSetInvestType={setInvestDetail}
               />
             );
