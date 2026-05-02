@@ -1,5 +1,3 @@
-import Logo from "../assets/Logo.svg";
-
 const Header = () => {
   return (
     <header className="py-5">

@@ -26,14 +26,14 @@ const InputFrame = ({
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-3 mb-2">
-        <div className="left flex gap-2">
+        <div className="flex gap-2">
           <div
-            className={`"icon flex-center size-12 p-3.5 text-primary-text rounded-full ${bgColor}`}
+            className={`flex-center size-12 p-3.5 rounded-full ${bgColor}`}
             style={{ color: textColor }}
           >
             <Icon strokeWidth={3} />
           </div>
-          <div className="">
+          <div>
             <label
               htmlFor={name}
               className="font-semibold text-sm text-slate-800"
@@ -44,7 +44,7 @@ const InputFrame = ({
           </div>
         </div>
         <div
-          className={`right w-42 flex items-center self-end px-2 border border-input-border rounded-md`}
+          className={`w-42 flex items-center self-end px-2 border border-input-border rounded-md`}
           style={{ color: textColor }}
         >
           <span>

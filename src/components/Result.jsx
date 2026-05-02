@@ -13,18 +13,12 @@ import {
   Grow,
 } from "../assets/svgs/svgs";
 
-const ResultHeader = ({
-  image,
-  imgSize,
-  borderColor,
-  grad,
-  emi,
-  years,
-  rate,
-}) => {
+const ResultHeader = ({ emi, years, rate }) => {
   return (
     <div
-      className={`header flex justify-between px-6 pt-4 rounded-t-lg ${borderColor} border border-b-0 ${grad}`}
+      className={`flex justify-between px-6 pt-4 rounded-t-lg ${
+        !emi ? "border-ui-green-border" : "border-ui-purple-border"
+      } border border-b-0 ${!emi ? "green-grad" : "purple-grad"}`}
     >
       <div className="self-center">
         {!emi ? (
@@ -33,23 +27,22 @@ const ResultHeader = ({
             <p className="font-semibold text-ui-text-bold">at a Glance.</p>
           </div>
         ) : (
-          <div className="emi-header text-slate-600">
-            <p className="text-xs">Your Monthly EMI</p>
+          <div className="text-xs text-slate-600">
+            <p>Your Monthly EMI</p>
             <p className="py-1 flex items-center text-ui-cal-icon">
               <Rupee className="size-6" strokeWidth={3} />
-
               <span className="text-3xl font-semibold tracking-wide">
                 {emi}
               </span>
             </p>
-            <p className="text-xs">
+            <p>
               For {years} Years at {rate}% p.a.
             </p>
           </div>
         )}
       </div>
-      <div className={`${imgSize}`}>
-        <img src={image} alt="Invest meter" className="w-full" />
+      <div className={`${!emi ? "w-38" : "w-30"}`}>
+        <img src={!emi ? Money : Loan} alt="Invest meter" className="w-full" />
       </div>
     </div>
   );
@@ -57,17 +50,17 @@ const ResultHeader = ({
 
 const Card = ({ Icon, title, amount, bgColor, textColor }) => {
   return (
-    <div className="flex items-center justify-between px-4 py-4 rounded-xl shadow">
-      <div className="left flex items-center gap-4">
+    <div className="flex-between p-4 rounded-xl shadow">
+      <div className="flex items-center gap-4">
         <div
           className={`icon size-14 p-4 flex-center rounded-full ${bgColor} ${textColor}`}
         >
-          <Icon className="w-6 h-6" />
+          <Icon className="size-6" />
         </div>
         <p className="text-slate-800 text-sm tracking-wide">{title}</p>
       </div>
       <div
-        className={`right text-lg font-roboto font-semibold tracking-wide ${textColor}`}
+        className={`text-lg font-roboto font-semibold tracking-wide ${textColor}`}
       >
         {amount}
       </div>
@@ -77,15 +70,13 @@ const Card = ({ Icon, title, amount, bgColor, textColor }) => {
 
 const LoanCard = ({ Icon, bgColor, textColor, title, amount }) => {
   return (
-    <div className="w-full flex flex-col items-center px-4 py-4 rounded-xl shadow gap-y-1 text-wrap">
+    <div className="w-full flex flex-col items-center p-4 rounded-xl shadow gap-y-1 text-center">
       <div
         className={`icon size-14 p-4 flex-center rounded-full ${bgColor} ${textColor}`}
       >
-        <Icon className="w-6 h-6" />
+        <Icon className="size-6" />
       </div>
-      <p className="text-slate-600 text-xs tracking-wide text-center">
-        {title}
-      </p>
+      <p className="text-slate-600 text-xs tracking-wide">{title}</p>
 
       <div
         className={`right pt-1 text-2xl font-roboto font-semibold tracking-wide ${textColor}`}
@@ -154,35 +145,16 @@ const Result = ({ ResultType, calculatedData }) => {
 
   return ResultType !== "emi" ? (
     <>
-      <ResultHeader
-        image={Money}
-        imgSize="w-38"
-        borderColor="border-ui-green-border"
-        grad="green-grad"
-      />
+      <ResultHeader />
       <div className="space-y-4 p-5">
-        {!calculatedData ? (
-          <div className="text-center text-sm">
-            Click on
-            <span className="px-1 font-medium text-ui-interest-icon">
-              Calculate
-            </span>
-            button to see results.
-          </div>
-        ) : (
-          CARD_DETAILS.map((cardData) => (
-            <Card key={cardData.amount} {...cardData} />
-          ))
-        )}
+        {CARD_DETAILS.map((cardData) => (
+          <Card key={cardData.amount} {...cardData} />
+        ))}
       </div>
     </>
   ) : (
     <>
       <ResultHeader
-        image={Loan}
-        imgSize="w-30"
-        borderColor="border-ui-purple-border"
-        grad="purple-grad"
         emi={calculatedData?.monthlyEmi}
         rate={calculatedData?.annualRate}
         years={calculatedData?.time}

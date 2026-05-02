@@ -71,9 +71,9 @@ export function emiCalc({ amount, annualRate, time }) {
     schedule.push({
       month,
       emi: Math.floor(emi),
-      interestPaid: Math.floor(interestPaid),
-      amountPaid: Math.floor(amountPaid),
-      balance: Math.floor(Math.max(balance, 0)),
+      interestPaid: Math.ceil(interestPaid),
+      amountPaid: Math.ceil(amountPaid),
+      balance: Math.ceil(Math.max(balance, 0)),
     });
   }
 
@@ -83,9 +83,9 @@ export function emiCalc({ amount, annualRate, time }) {
     time,
     noOfEmi: totalMonths,
     monthlyEmi: Math.floor(emi),
-    totalPayment: Math.floor(totalPayment),
-    totalInterest: Math.floor(totalInterest),
-    interestRate: Math.floor(interestRate),
+    totalPayment: Math.ceil(totalPayment),
+    totalInterest: Math.ceil(totalInterest),
+    interestRate: Math.ceil(interestRate),
     // schedule,
   };
 }
