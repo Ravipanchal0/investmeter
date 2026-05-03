@@ -17,10 +17,12 @@ const InputFrame = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    onSetValue((prev) => ({
-      ...prev,
-      [name]: Number(value),
-    }));
+    if (Number(value) <= max) {
+      onSetValue((prev) => ({
+        ...prev,
+        [name]: Number(value),
+      }));
+    }
   };
 
   return (

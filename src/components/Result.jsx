@@ -148,7 +148,7 @@ const Result = ({ ResultType, calculatedData }) => {
       <ResultHeader />
       <div className="space-y-4 p-5">
         {CARD_DETAILS.map((cardData) => (
-          <Card key={cardData.amount} {...cardData} />
+          <Card key={cardData.title} {...cardData} />
         ))}
       </div>
     </>
@@ -160,8 +160,8 @@ const Result = ({ ResultType, calculatedData }) => {
         years={calculatedData?.time}
       />
       <div className="grid grid-cols-2 gap-5 p-5">
-        {LOAN_CARD_DETAILS.map((loanCard) => (
-          <LoanCard key={loanCard.amount} {...loanCard} />
+        {LOAN_CARD_DETAILS.map((loanCard, index) => (
+          <LoanCard key={loanCard.title} {...loanCard} />
         ))}
       </div>
     </>

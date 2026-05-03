@@ -116,7 +116,7 @@ const App = () => {
     <>
       <Header />
       <main className="sm:p-5 mt-3 sm:border border-main-border rounded-2xl">
-        <div className="btns flex-center gap-3 sm:gap-4">
+        <div className="btns flex items-center justify-center sm:justify-start gap-3 sm:gap-4">
           {BUTTONS.map((btn) => {
             return (
               <Button
